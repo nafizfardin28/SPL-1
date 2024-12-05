@@ -1,0 +1,2 @@
+C:/Users/fardi/OneDrive/Documents/GitHub/SoftwareMetricsAnalyzer/SPL-1/build/CMakeFiles/edit_cache.dir
+C:/Users/fardi/OneDrive/Documents/GitHub/SoftwareMetricsAnalyzer/SPL-1/build/CMakeFiles/rebuild_cache.dir
