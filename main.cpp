@@ -1,11 +1,12 @@
 #include "metrics.h"
+#include "lexer.h"
 #include <iostream>
 #include <filesystem>
-//HIIII
-//JJJJJ
+#include<fstream>
+#include<string>
+#include<numeric>
 using namespace std;
-/*i 
- am fardin*/
+
 int main(int argC, char* argV[])
 {
     if(argC<2)
@@ -23,12 +24,14 @@ int main(int argC, char* argV[])
             continue;
         }
         vector<string> lines = readFileLines(filename);
+        std::string code = accumulate(lines.begin(), lines.end(), std::string("\n"));
+        TokenCount metrics2 = tokenizeAndCount(code);
+        //TokenCount metrics2 = tokenizeAndCount(filename);
         sizeMetrics metrics = calculateMetrics(lines);
         CommentMetrics metrics1 = calculateComments(lines);
-        allMetrics.push_back({filename,metrics,metrics1});
+        allMetrics.push_back({filename,metrics,metrics1,metrics2});
     }
     visualizemetrics(allMetrics);
-
     return 0;
 
 }
