@@ -2,7 +2,6 @@
 #include <cctype>
 #include <unordered_set>
 
-// Helper function to check if a character is a delimiter
 bool isDelimiter(char c) {
     static const std::unordered_set<char> delimiters = {
         '(', ')', '{', '}', '[', ']', ';', ',', '.', ':', '?'
@@ -10,7 +9,6 @@ bool isDelimiter(char c) {
     return delimiters.find(c) != delimiters.end();
 }
 
-// Helper function to check if a character is an operator
 bool isOperator(char c) {
     static const std::unordered_set<char> operators = {
         '+', '-', '*', '/', '%', '=', '<', '>', '!', '&', '|', '^', '~'
@@ -18,7 +16,6 @@ bool isOperator(char c) {
     return operators.find(c) != operators.end();
 }
 
-// Helper function to check if a string is a keyword
 bool isKeyword(const std::string& str) {
     static const std::unordered_set<std::string> keywords = {
         "main","auto", "break", "case", "char", "const", "continue", "default", "do",
@@ -40,7 +37,6 @@ TokenCount tokenizeAndCount(const std::string& code) {
         char c = code[i];
         char nextC = (i + 1 < code.length()) ? code[i + 1] : '\0';
 
-        // Handle multi-line comments
         if (inComment) {
             if (c == '*' && nextC == '/') {
                 inComment = false;
@@ -54,13 +50,11 @@ TokenCount tokenizeAndCount(const std::string& code) {
             continue;
         }
 
-        // Handle single-line comments
         if (c == '/' && nextC == '/') {
             while (i < code.length() && code[i] != '\n') i++;
             continue;
         }
 
-        // Handle string literals
         if (inString) {
             if (c == '"' && code[i - 1] != '\\') inString = false;
             continue;
@@ -70,7 +64,7 @@ TokenCount tokenizeAndCount(const std::string& code) {
             continue;
         }
 
-        // Handle character literals
+        
         if (inChar) {
             if (c == '\'' && code[i - 1] != '\\') inChar = false;
             continue;
@@ -80,7 +74,6 @@ TokenCount tokenizeAndCount(const std::string& code) {
             continue;
         }
 
-        // Process token on whitespace or delimiter
         if (std::isspace(c) || isDelimiter(c) || isOperator(c)) {
             if (!currentToken.empty()) {
                 if (isKeyword(currentToken)) {
@@ -95,7 +88,6 @@ TokenCount tokenizeAndCount(const std::string& code) {
                 currentToken.clear();
             }
 
-            // Count delimiters and operators
             if (isDelimiter(c)) {
                 count.delimiterCount++;
             } else if (isOperator(c)) {
@@ -103,12 +95,9 @@ TokenCount tokenizeAndCount(const std::string& code) {
             }
             continue;
         }
-
-        // Append character to the current token
         currentToken += c;
     }
 
-    // Process the last token
     if (!currentToken.empty()) {
         if (isKeyword(currentToken)) {
             count.keyWordCount++;
