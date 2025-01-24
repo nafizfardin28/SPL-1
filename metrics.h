@@ -4,16 +4,17 @@
 #include <string>
 #include <vector>
 #include "lexer.h"
+#include "cyclomatic.h"
 struct sizeMetrics
 {
     int totalLines;
     int codeLines;
     int blankLines;
     int functionCount;
-    
 };
 
-struct CommentMetrics{
+struct CommentMetrics
+{
     int totalLines;
     int totalCommentLines;
     int singleLineComments;
@@ -25,11 +26,11 @@ struct FileMetrics
     sizeMetrics metrics;
     CommentMetrics metrics1;
     TokenCount metrics2;
+    Cyclomatic metrics3;
 };
-std :: vector<std::string> readFileLines(const std::string& filename);
-sizeMetrics calculateMetrics(const std::vector<std::string>& lines);
-CommentMetrics calculateComments(const std::vector<std::string>& lines);
-void visualizemetrics(const std::vector<FileMetrics>& allMetrics);
+std ::vector<std::string> readFileLines(const std::string &filename);
+sizeMetrics calculateMetrics(const std::vector<std::string> &lines);
+CommentMetrics calculateComments(const std::vector<std::string> &lines);
+void visualizemetrics(const std::vector<FileMetrics> &allMetrics);
 
-#endif // METRICS_H
-
+#endif 
