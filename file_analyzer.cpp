@@ -4,7 +4,7 @@
 #include <regex>
 #include <iostream>
 using namespace std;
-//iiii
+
 vector<string> readFileLines(const string &filename)
 {
     vector<string> lines;
@@ -26,7 +26,7 @@ vector<string> readFileLines(const string &filename)
 }
 CommentMetrics calculateComments(const vector<string> &lines)
 {
-    CommentMetrics metrics={0,0,0,0};
+    CommentMetrics metrics = {0, 0, 0, 0};
     bool inMultiLineComment = false;
     regex singleLineCommentRegex(R"(^\s*//|[^:"]//.*$)");
     regex multiLineCommentStartRegex(R"(/\*.*)");
@@ -62,17 +62,20 @@ CommentMetrics calculateComments(const vector<string> &lines)
     }
     return metrics;
 }
-bool isBlankLine(const string& line) {
-    return std::all_of(line.begin(), line.end(), [](unsigned char c) { return isspace(c); });
+bool isBlankLine(const string &line)
+{
+    return std::all_of(line.begin(), line.end(), [](unsigned char c)
+                       { return isspace(c); });
 }
-int countFunctions(const vector<string>& fileLines) {
-    // Regular expression to match function definitions
+int countFunctions(const vector<string> &fileLines)
+{
     std::regex functionRegex(R"(\b(?:void|int|float|double|char|bool|long|short|unsigned|signed|auto|const|volatile|static|virtual|class|struct|template|inline|explicit|constexpr)\s+\w+\s*\([^)]*\)\s*\{)");
     int functionCount = 0;
 
-    // Iterate through the lines of the file
-    for (const auto& line : fileLines) {
-        if (regex_search(line, functionRegex)) {
+    for (const auto &line : fileLines)
+    {
+        if (regex_search(line, functionRegex))
+        {
             functionCount++;
         }
     }
@@ -82,21 +85,15 @@ int countFunctions(const vector<string>& fileLines) {
 sizeMetrics calculateMetrics(const vector<string> &lines)
 {
     sizeMetrics metrics = {0, 0, 0, 0};
-    // CommentMetrics metrics1 = {0,0,0};
     bool inMultiLineComment = false;
     for (const auto &line : lines)
     {
         metrics.totalLines++;
         string trimmedLine = line;
-        //trimmedLine.erase(0, trimmedLine.find_first_not_of("\t"));
-
-        if(isBlankLine(line))
+        if (isBlankLine(line))
             metrics.blankLines++;
     }
     metrics.functionCount = countFunctions(lines);
-    // metrics.codeAndcommentLines = metrics.totalLines - metrics.blankLines;
     metrics.codeLines = metrics.totalLines - metrics.blankLines;
-    // metrics.commentRatio = (double)((metrics1.totalCommentLines)/(metrics.totalLines));
-
     return metrics;
 }
