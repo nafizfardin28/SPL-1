@@ -1,5 +1,6 @@
 #include "metrics.h"
 #include "lexer.h"
+#include "cyclomatic.h"
 #include <iostream>
 #include <filesystem>
 #include<fstream>
@@ -25,11 +26,11 @@ int main(int argC, char* argV[])
         }
         vector<string> lines = readFileLines(filename);
         std::string code = accumulate(lines.begin(), lines.end(), std::string("\n"));
-        TokenCount metrics2 = tokenizeAndCount(code);
-        //TokenCount metrics2 = tokenizeAndCount(filename);
         sizeMetrics metrics = calculateMetrics(lines);
         CommentMetrics metrics1 = calculateComments(lines);
-        allMetrics.push_back({filename,metrics,metrics1,metrics2});
+        TokenCount metrics2 = tokenizeAndCount(code);
+        Cyclomatic metrics3 = calculateCyclomaticComplexity(lines);
+        allMetrics.push_back({filename,metrics,metrics1,metrics2,metrics3});
     }
     visualizemetrics(allMetrics);
     return 0;
