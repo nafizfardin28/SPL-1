@@ -17,7 +17,7 @@ void visualizemetrics(const vector<FileMetrics>& allMetrics)
          << setw(20) << "MultiCommentLines"
          << setw(15) << "Comment Ratio (%)";
     cout << endl;
-    cout << string(140, '-') << endl;
+    cout << string(137, '-') << endl;
 
     for (const auto& fileMetrics : allMetrics)
     {
@@ -31,11 +31,27 @@ void visualizemetrics(const vector<FileMetrics>& allMetrics)
              << setw(15) << fixed << setprecision(2)
              << ((fileMetrics.metrics.totalLines > 0)
                  ? (static_cast<double>(fileMetrics.metrics1.totalCommentLines) / fileMetrics.metrics.totalLines) * 100
-                 : 0.0) << "%";
+                 : 0.0) ;
+        cout << endl ;
+    }
+    cout << endl << "CYCLOMATIC COMPLEXITY -" << endl << endl;
+
+    cout << setw(20) << left << "FileName"
+         << setw(25) << "CyclomaticComplexity"
+         << "CyclomaticDensity(%)" << endl;
+    cout << string(65, '-') << endl;
+
+    for(const auto& fileMetrics : allMetrics)
+    {
+        cout << setw(20) << left << fileMetrics.filename;
+        cout <<"  " << setw(22) << left << fileMetrics.metrics3.cyclomaticComplexity
+             <<" " << ((fileMetrics.metrics.totalLines > 0)
+                 ? (static_cast<double>(fileMetrics.metrics3.cyclomaticComplexity) / fileMetrics.metrics.totalLines) * 100
+                 : 0.0) ;
         cout << endl;
     }
-
-    cout << endl << "TOKEN METRICS-" << endl << endl;
+    cout << endl << "TOKENS-" << endl << endl;
+    //cout <<"--------" << endl;
     cout << setw(20) << left << "FileName"
          << setw(15) << "Keywords"
          << setw(15) << "Identifiers"
@@ -44,7 +60,7 @@ void visualizemetrics(const vector<FileMetrics>& allMetrics)
          << setw(15) << "Delimiters"
          << setw(15) << "Unknowns";
     cout << endl;
-    cout << string(110, '-') << endl;
+    cout << string(103, '-') << endl;
 
     for (const auto& fileMetrics : allMetrics)
     {
@@ -59,6 +75,4 @@ void visualizemetrics(const vector<FileMetrics>& allMetrics)
     }
 
     cout << endl;
-}
-
 }
