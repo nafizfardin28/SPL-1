@@ -30,7 +30,8 @@ int main(int argC, char* argV[])
         CommentMetrics metrics1 = calculateComments(lines);
         TokenCount metrics2 = tokenizeAndCount(code);
         Cyclomatic metrics3 = calculateCyclomaticComplexity(lines);
-        allMetrics.push_back({filename,metrics,metrics1,metrics2,metrics3});
+        HalsteadMetrics metrics4 = calculateHalsteadMetrics(code);
+        allMetrics.push_back({filename,metrics,metrics1,metrics2,metrics3,metrics4});
     }
     visualizemetrics(allMetrics);
     return 0;
