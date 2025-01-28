@@ -5,6 +5,7 @@
 #include <vector>
 #include "lexer.h"
 #include "cyclomatic.h"
+#include "halstead.h"
 struct sizeMetrics
 {
     int totalLines;
@@ -20,6 +21,7 @@ struct CommentMetrics
     int singleLineComments;
     int multiLineComments;
 };
+
 struct FileMetrics
 {
     std ::string filename;
@@ -27,7 +29,9 @@ struct FileMetrics
     CommentMetrics metrics1;
     TokenCount metrics2;
     Cyclomatic metrics3;
+    HalsteadMetrics metrics4;
 };
+
 std ::vector<std::string> readFileLines(const std::string &filename);
 sizeMetrics calculateMetrics(const std::vector<std::string> &lines);
 CommentMetrics calculateComments(const std::vector<std::string> &lines);
