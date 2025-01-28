@@ -73,6 +73,31 @@ void visualizemetrics(const vector<FileMetrics>& allMetrics)
              << setw(15) << fileMetrics.metrics2.unknownCount;
         cout << endl;
     }
+    cout << endl << "HALSTEAD METRICS-" << endl << endl;
+    cout << setw(20) << left << "FileName"
+         << setw(15) << "Length(N)"
+         << setw(15) << "Vocabulary(n)   "
+         << setw(15) << "Volume(V)"
+         << setw(25) << "Calculated Length(N^)"
+         << setw(15) << "Difficulty(D)"
+         << setw(15) << "Effort(E)"
+         << setw(15) << " Time(T)"
+         << setw(15) <<  " Bugs(B)";
+    cout << endl;
+    cout << string(144, '-') << endl;
 
+    for (const auto& fileMetrics : allMetrics)
+    {
+        cout << setw(20) << left << fileMetrics.filename
+             << setw(15) << fileMetrics.metrics4.length
+             << setw(17) << fileMetrics.metrics4.vocabulary
+             << setw(17) << fileMetrics.metrics4.volume
+             << setw(25) << fileMetrics.metrics4.calculatedLength
+             << setw(15) << fileMetrics.metrics4.difficulty
+             << setw(15) << fileMetrics.metrics4.effort
+             << setw(15) << fileMetrics.metrics4.time
+             << setw(15) << fileMetrics.metrics4.bugs;
+        cout << endl;
+    }
     cout << endl;
 }
