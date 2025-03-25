@@ -1,2 +1,6 @@
-g++ -std=c++17 main.cpp file_analyzer.cpp visualizer.cpp removeComment.cpp lexer.cpp cyclomatic.cpp -o metrics_analyzer
+g++ -std=c++17 main.cpp file_analyzer.cpp visualizer.cpp removeComment.cpp lexer.cpp cyclomatic.cpp -o metrics_analyzer(for running without graphics visualization)
 metrics_analyzer.exe file1.cpp file2.cpp .......
+for graphics visulization :
+save the makefile in the directory
+make(command in the terminal)
+./myApp testfile1 testfile2 testfile3..............(file input in the terminal)
