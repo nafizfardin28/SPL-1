@@ -152,7 +152,7 @@ void visualizemetrics(const std::vector<FileMetrics> &allMetrics)
     QPushButton *exportButton = new QPushButton("Save as PDF");
     QPushButton *switchChartButton = new QPushButton("Show Cyclomatic Complexity");
     QPushButton *showHalsteadButton = new QPushButton("Show Halstead Metrics");
-    QPushButton *showTokens = new QPushButton("Show Tokens");
+    QPushButton *showTokens = new QPushButton("Show Additional Metrics");
     QPushButton *exitButton = new QPushButton("Exit");
 
     bool showingCyclomatic = false;
@@ -166,7 +166,9 @@ void visualizemetrics(const std::vector<FileMetrics> &allMetrics)
                         if (chart->series().contains(sizeSeries)) {
                             chart->removeSeries(sizeSeries);
                         }
-                        
+                        if(chart->series().contains(halsteadSeries)){
+                            chart->removeSeries(halsteadSeries);
+                        }
                         showingCyclomatic = !showingCyclomatic;
                         showingHalstead = false;
                         if (showingCyclomatic) {
@@ -186,6 +188,15 @@ void visualizemetrics(const std::vector<FileMetrics> &allMetrics)
                             chart->addSeries(sizeSeries);
                             sizeSeries->attachAxis(xAxis);
                             sizeSeries->attachAxis(yAxis);
+                            int maxTotalLines = 0;
+                            for (const auto &fileMetrics : allMetrics)
+                            {
+                                if (fileMetrics.metrics.totalLines > maxTotalLines)
+                                    {
+                                        maxTotalLines = fileMetrics.metrics.totalLines;
+                                    }
+                            }
+                            yAxis->setRange(0,maxTotalLines+10);   
                             switchChartButton->setText("Show Cyclomatic Complexity");
                 
                             showHalsteadButton->setVisible(true);
