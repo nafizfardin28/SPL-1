@@ -67,16 +67,34 @@ bool isBlankLine(const string &line)
     return std::all_of(line.begin(), line.end(), [](unsigned char c)
                        { return isspace(c); });
 }
-int countFunctions(const vector<string> &fileLines)
-{
-    std::regex functionRegex(R"(\b(?:void|int|float|double|char|bool|long|short|unsigned|signed|auto|const|volatile|static|virtual|class|struct|template|inline|explicit|constexpr)\s+\w+\s*\([^)]*\)\s*\{)");
+
+int countFunctions(const std::vector<std::string>& codeLines) {
     int functionCount = 0;
 
-    for (const auto &line : fileLines)
-    {
-        if (regex_search(line, functionRegex))
-        {
+   
+    std::regex functionRegex(R"(\b[a-zA-Z_][a-zA-Z0-9_:<>]*\s+[a-zA-Z_][a-zA-Z0-9_:<>]*\s*\([^)]*\)\s*(?:const)?\s*(?:\{|;))");
+
+    bool insideFunction = false; 
+    std::string functionBuffer;  
+
+    for (const std::string& line : codeLines) {
+        std::smatch match;
+
+
+        functionBuffer += line + " ";
+
+        if (std::regex_search(functionBuffer, match, functionRegex)) {
             functionCount++;
+            functionBuffer.clear(); 
+        }
+
+
+        if (line.find('{') != std::string::npos) {
+            insideFunction = true;
+        } 
+        else if (insideFunction && line.find('}') != std::string::npos) {
+            insideFunction = false; 
+            functionBuffer.clear();
         }
     }
 
@@ -85,7 +103,7 @@ int countFunctions(const vector<string> &fileLines)
 sizeMetrics calculateMetrics(const vector<string> &lines)
 {
     sizeMetrics metrics = {0, 0, 0, 0};
-    bool inMultiLineComment = false;
+   
     for (const auto &line : lines)
     {
         metrics.totalLines++;
@@ -94,6 +112,6 @@ sizeMetrics calculateMetrics(const vector<string> &lines)
             metrics.blankLines++;
     }
     metrics.functionCount = countFunctions(lines);
-    metrics.codeLines = metrics.totalLines - metrics.blankLines;
-    return metrics;
+
+    return metrics; 
 }
